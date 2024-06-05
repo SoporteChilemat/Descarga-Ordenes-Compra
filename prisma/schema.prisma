@@ -128,3 +128,5 @@ model PosicionOrdenCompra {
   C_EstadoPosOC             String
   OrdenCompra               OrdenCompra? @relation(fields: [C_NumeroOrdenCompra], references: [C_NumeroOrdenCompra])
 }
+
+

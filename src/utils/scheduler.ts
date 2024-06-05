@@ -43,6 +43,9 @@ const scheduleNextExecution = () => {
 };
 
 // Initial schedule setup
-scheduleNextExecution();
+export const startScheduler = () => {
+    console.log('Scheduler initialized. Task will run with random intervals between 0 and 15 seconds within working hours (8:00 AM to 6:00 PM).');
+    scheduleNextExecution();
+};
 
 console.log('Scheduler initialized. Task will run with random intervals between 0 and 15 seconds within working hours (8:00 AM to 6:00 PM).');

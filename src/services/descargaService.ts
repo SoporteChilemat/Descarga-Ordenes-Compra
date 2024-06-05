@@ -204,3 +204,59 @@ export async function getSmallestOrderNumberByDate(date: Date): Promise<string |
         return null;
     }
 }
+
+function convertBigIntToString(obj: any): any {
+    if (typeof obj === 'bigint') {
+        return obj.toString();
+    } else if (Array.isArray(obj)) {
+        return obj.map(convertBigIntToString);
+    } else if (obj !== null && typeof obj === 'object') {
+        return Object.keys(obj).reduce((acc, key) => {
+            acc[key] = convertBigIntToString(obj[key]);
+            return acc;
+        }, {} as any);
+    }
+    return obj;
+}
+
+export async function getOrdersWithPositions(MC_RutFerreteria: string): Promise<any> {
+    try {
+        console.log('MC_RutFerreteria:', MC_RutFerreteria);
+
+        const orders = await prisma.ordenCompra.findMany({
+            where: {
+                MC_RutFerreteria: MC_RutFerreteria
+            },
+            include: {
+                PosicionOrdenCompra: true
+            }
+        });
+
+        return convertBigIntToString(orders);
+    } catch (error) {
+        console.error('Error al obtener las OrdenCompra con sus posiciones:', error);
+        throw new Error('Error fetching orders');
+    }
+}
+
+export async function getOrdersWithPositionsNot(MC_RutFerreteria: string): Promise<any> {
+    try {
+        console.log('MC_RutFerreteria not:', MC_RutFerreteria);
+
+        const orders = await prisma.ordenCompra.findMany({
+            where: {
+                MC_RutFerreteria: {
+                    not: MC_RutFerreteria
+                }
+            },
+            include: {
+                PosicionOrdenCompra: true
+            }
+        });
+
+        return convertBigIntToString(orders);
+    } catch (error) {
+        console.error('Error al obtener las OrdenCompra con sus posiciones:', error);
+        throw new Error('Error fetching orders');
+    }
+}
