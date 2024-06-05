@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model descarga {
+  fecha              DateTime      @id
+  OrdenDeInicio      String
+  OrdenesDescargadas OrdenCompra[]
+}
+
+model OrdenCompra {
+  versionIdentifier          Int?
+  C_NumeroOrdenCompra        String                @id
+  C_IdProvOrdenCompra        String
+  C_IdClaseDocumentoCompra   String
+  C_DesClaseDocumentoCompra  String
+  C_NumeroPedidoVentas       String
+  C_NumeroClienteOC          String
+  C_IdOrganizacionCompras    String
+  C_DesOrganizacionCompras   String
+  C_IdGrupoCompras           String
+  C_DesGrupoCompras          String
+  C_IdMoneda                 String
+  C_FechaCreacion_OC         BigInt
+  C_ObservacionesOrdenCompra String
+  MPR_IdAgrupacionProveedor  String
+  MPR_RutProveedor           String
+  MPR_RazonSocialProveedor   String
+  MPR_Calle                  String
+  MPR_NumCalle               String
+  MPR_Poblacion              String
+  MPR_IdPais                 String
+  MPR_Region                 String
+  MPR_PaisDesc               String
+  MPR_RegionDesc             String
+  MC_RazonSocialFerreteria   String
+  MC_RutFerreteria           String
+  V_IdCondicionExpedicion    String
+  V_DesCondicionExpedicion   String
+  MPR_IdCondicionPago        String
+  MPR_DenCondicionPago       String
+  V_NumReferenciaPedVenta    String?
+  MC_IdDesMercancia          String
+  MC_DireccionDestMercancia  String
+  MC_DesCiudad               String
+  MC_IdPaisFerreteria        String
+  MC_DenPais                 String
+  MC_IDRegion                String
+  MC_DenRegion               String
+  MC_DesComuna               String
+  MC_DestipoDestMercancia    String
+  C_IdTransportista          String?
+  C_NombreTransportista      String?
+  C_DireccionTransportista   String?
+  C_TelefTransportista       String?
+  C_PersonaContacto          String
+  C_IdPersonaContacto        String
+  C_IdEjecutivoChilemat      String?
+  C_NombreEjecutivoCHM       String?
+  C_Vtext                    String
+  V_TipoDeDistribucion       String?
+  V_DesTipoDeDistribucion    String?
+  C_FechaGeneracion_OC       BigInt
+  C_HoraGeneracion_OC        BigInt
+  MPR_IdRegionMaterial       String?
+  MPR_DesRegionMaterial      String?
+  MPR_IdDistritoMaterial     String?
+  MPR_DesDistritoMaterial    String?
+  C_EstadoOC                 String
+  C_IdEstadoOC               String
+  to_DetalleOC               String?
+  to_MailEjecutivo           String?
+  to_Mails                   String?
+  to_Montos                  String?
+  to_Telefonos               String?
+  PosicionOrdenCompra        PosicionOrdenCompra[]
+  descarga                   descarga?             @relation(fields: [descargaFecha], references: [fecha])
+  descargaFecha              DateTime?
+}
+
+model PosicionOrdenCompra {
+  id                        Int          @id @default(autoincrement())
+  C_NumeroOrdenCompra       String
+  C_PosicionOrdenCompra     String
+  C_IdMaterialOrdenCompra   String
+  C_CantidadPedido          String
+  C_UMPedido                String
+  C_DesUMPedido             String
+  C_DesMaterialOrdenCompra  String
+  C_DocComercialOrdenCompra String
+  MC_IdFerreteria           String
+  C_IdMoneda                String
+  MPR_IdMaterialProveedor   String
+  C_IdTipoMaterial          String
+  C_DesTipoMaterial         String
+  MPR_MedidaMaterial        String?
+  C_PrecioUnitarioOC        String
+  C_ValorBrutoOC            String
+  C_DescMaterial1OC         String
+  C_DescMaterial2OC         String
+  C_Descmaterial3OC         String
+  C_Descmaterial4OC         String
+  C_Descmaterial5OC         String
+  C_Descmaterial6OC         String
+  C_Descmaterial7OC         String
+  C_Descmaterial8OC         String
+  C_Descmaterial9OC         String
+  C_Descmaterial10OC        String
+  C_OfertaMaterial1OC       String
+  C_OfertaMaterial2OC       String
+  C_PrecioNetoPosicionOC    String
+  C_PrecioNetoPosicionOCS   String
+  C_ValorNetoPosicionOC     String
+  C_ValorNetoPosicionOCS    String
+  C_DesFinancieroOC         String
+  C_IdEstadoPosOC           String?
+  C_EstadoPosOC             String
+  OrdenCompra               OrdenCompra? @relation(fields: [C_NumeroOrdenCompra], references: [C_NumeroOrdenCompra])
+}
